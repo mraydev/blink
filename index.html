@@ -283,10 +283,12 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* SVG Logo Recreation */
+  /* Hero logo — intrinsic aspect ratio (no fixed box that squishes the PNG) */
   .logo-mark {
-    width: 130px;
-    height: 90px;
+    width: auto;
+    height: auto;
+    max-width: min(100%, 420px);
+    display: block;
     margin: 0 auto 28px;
     animation: logoFloat 6s ease-in-out infinite;
   }
