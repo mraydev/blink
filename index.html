@@ -3,282 +3,1514 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pawmatch</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>BLINK — Serious about Love? So are We.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-burgundy: '#5d162b',
-'burgundy-light': '#8a2040',
-                    },
-fontFamily: {
-'playfair': ['Playfair Display', 'serif'],
-'inter': ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-@keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
-        }
-.animate-marquee {
-animation: marquee 30s linear infinite;
-        }
-.gradient-blob {
-background: radial-gradient(circle at 30% 50%, rgba(93, 22, 43, 0.15) 0%, transparent 50%);
-filter: blur(60px);
-        }
-.gradient-blob-2 {
-background: radial-gradient(circle at 70% 30%, rgba(93, 22, 43, 0.1) 0%, transparent 60%);
-filter: blur(80px);
-        }
-.glass {
-background: rgba(255, 255, 255, 0.7);
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
-        }
-.image-shadow {
-box-shadow: 
-0 20px 60px -15px rgba(0, 0, 0, 0.2),
-0 10px 30px -10px rgba(93, 22, 43, 0.15);
-        }
+  :root {
+    --emerald: #1a3d2b;
+    --emerald-deep: #0f2319;
+    --emerald-mid: #234F38;
+    --gold: #B08D57;
+    --gold-light: #c9a96e;
+    --gold-pale: #d4b57a;
+    --cream: #F2ECE5;
+    --blush: #D9B8A7;
+    --taupe: #A49333;
+    --text-light: rgba(242, 236, 229, 0.85);
+    --text-muted: rgba(176, 141, 87, 0.6);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--emerald-deep);
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* ── SMOOTH SCROLL MARKER ── */
+  :target { scroll-margin-top: 80px; }
+
+  /* ─────────────────────────────────────
+     NAV
+  ───────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.5s, padding 0.3s;
+  }
+
+  nav.scrolled {
+    background: rgba(15, 35, 25, 0.92);
+    backdrop-filter: blur(20px);
+    padding: 16px 48px;
+    border-bottom: 1px solid rgba(176, 141, 87, 0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-logo img {
+    height: 28px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(242, 236, 229, 0.65);
+    text-decoration: none;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold-light); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s !important;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .nav-cta:hover {
+    background: var(--gold) !important;
+    color: var(--emerald-deep) !important;
+  }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+    transition: all 0.3s;
+  }
+
+  /* ── MOBILE MENU ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 24, 17, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 850;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--cream);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: menuIn 0.5s forwards;
+  }
+
+  .mobile-menu.open a:nth-child(1) { animation-delay: 0.1s; }
+  .mobile-menu.open a:nth-child(2) { animation-delay: 0.2s; }
+  .mobile-menu.open a:nth-child(3) { animation-delay: 0.3s; }
+  .mobile-menu.open a:nth-child(4) { animation-delay: 0.4s; }
+  .mobile-menu.open a:nth-child(5) { animation-delay: 0.5s; }
+
+  @keyframes menuIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mobile-close {
+    position: absolute;
+    top: 28px; right: 24px;
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* ─────────────────────────────────────
+     HERO
+  ───────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 120px 24px 80px;
+  }
+
+  /* Radial green glow background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 40%, #1e4a32 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(176,141,87,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 80% 20%, rgba(26,61,43,0.4) 0%, transparent 60%),
+      var(--emerald-deep);
+    z-index: 0;
+  }
+
+  /* Animated golden lines */
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.12;
+  }
+
+  .hero-lines::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 60%;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    left: 50%;
+    top: 20%;
+    animation: linePulse 4s ease-in-out infinite;
+  }
+
+  .hero-lines::after {
+    content: '';
+    position: absolute;
+    width: 40%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    left: 30%;
+    top: 50%;
+    animation: linePulse 4s ease-in-out infinite 2s;
+  }
+
+  @keyframes linePulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    animation: heroReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+  }
+
+  @keyframes heroReveal {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SVG Logo Recreation */
+  .logo-mark {
+    width: 130px;
+    height: 90px;
+    margin: 0 auto 28px;
+    animation: logoFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+    font-weight: 400;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    margin-bottom: 10px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(242, 236, 229, 0.6);
+    margin-bottom: 52px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-tagline span {
+    color: var(--gold-light);
+    font-style: normal;
+  }
+
+  .hero-cta-group {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--emerald-deep);
+    padding: 16px 44px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold-light);
+    transform: translateX(-100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: var(--cream);
+    padding: 16px 44px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 400;
+    border: 1px solid rgba(242, 236, 229, 0.3);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    border-radius: 2px;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* Scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: fadeIn 2s 1.5s forwards;
+    opacity: 0;
+  }
+
+  .scroll-hint span {
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(176, 141, 87, 0.5);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollDrop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* ─────────────────────────────────────
+     DIVIDER
+  ───────────────────────────────────── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 clamp(24px, 8vw, 120px);
+    margin: 60px 0;
+  }
+
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(176, 141, 87, 0.3), transparent);
+  }
+
+  .divider-diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  /* ─────────────────────────────────────
+     SECTION SHARED
+  ───────────────────────────────────── */
+  section {
+    padding: clamp(80px, 10vw, 140px) clamp(24px, 8vw, 120px);
+    position: relative;
+  }
+
+  .section-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  /* ─────────────────────────────────────
+     ABOUT
+  ───────────────────────────────────── */
+  #about {
+    background: linear-gradient(135deg, rgba(26, 61, 43, 0.4) 0%, transparent 60%);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 100px);
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-text p {
+    color: var(--text-light);
+    line-height: 1.9;
+    font-size: clamp(0.82rem, 1.2vw, 0.92rem);
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .about-text p strong {
+    color: var(--gold-light);
+    font-weight: 500;
+  }
+
+  .about-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-card {
+    background: linear-gradient(135deg, rgba(35, 79, 56, 0.5), rgba(15, 35, 25, 0.8));
+    border: 1px solid rgba(176, 141, 87, 0.2);
+    border-radius: 4px;
+    padding: clamp(32px, 4vw, 56px);
+    width: 100%;
+    max-width: 380px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .about-card-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .about-card-attr {
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ─────────────────────────────────────
+     FEATURES
+  ───────────────────────────────────── */
+  #experience {
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(26,61,43,0.35) 0%, transparent 70%),
+      var(--emerald-deep);
+  }
+
+  .experience-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 80px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-card {
+    padding: clamp(32px, 4vw, 52px) clamp(24px, 3vw, 40px);
+    background: rgba(26, 61, 43, 0.2);
+    border: 1px solid rgba(176, 141, 87, 0.08);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .feature-card:hover {
+    background: rgba(35, 79, 56, 0.35);
+    border-color: rgba(176, 141, 87, 0.2);
+    transform: translateY(-4px);
+  }
+
+  .feature-card:hover::after { width: 100%; }
+
+  .feature-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    color: rgba(176, 141, 87, 0.12);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .feature-icon {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    display: block;
+  }
+
+  .feature-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+
+  .feature-desc {
+    font-size: 0.78rem;
+    color: rgba(242, 236, 229, 0.5);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ─────────────────────────────────────
+     SOCIETY / COMMUNITY
+  ───────────────────────────────────── */
+  #society {
+    background: linear-gradient(to bottom, transparent, rgba(26,61,43,0.25), transparent);
+  }
+
+  .society-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 100px);
+    align-items: center;
+  }
+
+  .society-visual {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .society-card {
+    padding: 24px 20px;
+    background: linear-gradient(135deg, rgba(35, 79, 56, 0.4), rgba(15, 35, 25, 0.6));
+    border: 1px solid rgba(176, 141, 87, 0.15);
+    border-radius: 3px;
+    transition: all 0.4s;
+  }
+
+  .society-card:hover {
+    border-color: rgba(176, 141, 87, 0.4);
+    transform: translateY(-3px);
+  }
+
+  .society-card-icon { font-size: 1.4rem; margin-bottom: 10px; display: block; }
+
+  .society-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--gold-light);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .society-card-desc {
+    font-size: 0.7rem;
+    color: rgba(242, 236, 229, 0.4);
+    line-height: 1.6;
+  }
+
+  .society-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(176, 141, 87, 0.12), rgba(35, 79, 56, 0.4));
+    border-color: rgba(176, 141, 87, 0.25);
+  }
+
+  /* ─────────────────────────────────────
+     STATS BAND
+  ───────────────────────────────────── */
+  .stats-band {
+    background: linear-gradient(135deg, rgba(176, 141, 87, 0.08), rgba(35, 79, 56, 0.2));
+    border-top: 1px solid rgba(176, 141, 87, 0.12);
+    border-bottom: 1px solid rgba(176, 141, 87, 0.12);
+    padding: 56px clamp(24px, 8vw, 120px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(242, 236, 229, 0.45);
+  }
+
+  /* ─────────────────────────────────────
+     JOIN FORM
+  ───────────────────────────────────── */
+  #join {
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, rgba(26, 61, 43, 0.5) 0%, transparent 70%),
+      var(--emerald-deep);
+    text-align: center;
+  }
+
+  .join-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .join-inner .section-title { text-align: center; }
+
+  .join-sub {
+    font-size: 0.82rem;
+    color: rgba(242, 236, 229, 0.5);
+    line-height: 1.8;
+    margin-bottom: 52px;
+    font-weight: 300;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .form-group input, .form-group select {
+    width: 100%;
+    background: rgba(26, 61, 43, 0.3);
+    border: 1px solid rgba(176, 141, 87, 0.2);
+    color: var(--cream);
+    padding: 14px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 300;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .form-group input::placeholder { color: rgba(242, 236, 229, 0.25); }
+  .form-group input:focus { border-color: rgba(176, 141, 87, 0.5); }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-submit {
+    margin-top: 28px;
+    width: 100%;
+    background: var(--gold);
+    color: var(--emerald-deep);
+    padding: 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-submit::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold-light);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .form-submit:hover::before { transform: scaleX(1); }
+  .form-submit span { position: relative; z-index: 1; }
+
+  .form-note {
+    margin-top: 18px;
+    font-size: 0.65rem;
+    color: rgba(242, 236, 229, 0.3);
+    text-align: center;
+  }
+
+  /* Success state */
+  .form-success {
+    display: none;
+    padding: 48px 32px;
+    background: linear-gradient(135deg, rgba(176, 141, 87, 0.1), rgba(35, 79, 56, 0.3));
+    border: 1px solid rgba(176, 141, 87, 0.25);
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  .form-success.show { display: block; }
+
+  .form-success .check {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .form-success p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
+
+  .form-success small {
+    font-size: 0.75rem;
+    color: rgba(242, 236, 229, 0.4);
+  }
+
+  /* ─────────────────────────────────────
+     APP DOWNLOAD BAND
+  ───────────────────────────────────── */
+  .app-band {
+    background: linear-gradient(135deg, rgba(26, 61, 43, 0.6), rgba(15, 35, 25, 0.9));
+    border-top: 1px solid rgba(176, 141, 87, 0.1);
+    padding: 80px clamp(24px, 8vw, 120px);
+    text-align: center;
+  }
+
+  .app-band-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+
+  .app-band-sub {
+    font-size: 0.78rem;
+    color: rgba(242, 236, 229, 0.4);
+    margin-bottom: 36px;
+    letter-spacing: 0.05em;
+  }
+
+  .app-badges {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .app-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(26, 61, 43, 0.6);
+    border: 1px solid rgba(176, 141, 87, 0.25);
+    padding: 13px 26px;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: all 0.3s;
+    color: var(--cream);
+  }
+
+  .app-badge:hover {
+    border-color: var(--gold);
+    background: rgba(35, 79, 56, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .app-badge-icon { font-size: 1.4rem; }
+
+  .app-badge-text strong {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+
+  .app-badge-text span {
+    display: block;
+    font-size: 0.6rem;
+    color: rgba(242, 236, 229, 0.45);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─────────────────────────────────────
+     FOOTER
+  ───────────────────────────────────── */
+  footer {
+    background: var(--emerald-deep);
+    border-top: 1px solid rgba(176, 141, 87, 0.12);
+    padding: 60px clamp(24px, 8vw, 120px) 40px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    margin-bottom: 52px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .footer-brand-tagline {
+    font-size: 0.72rem;
+    color: rgba(242, 236, 229, 0.4);
+    line-height: 1.7;
+    max-width: 260px;
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(176, 141, 87, 0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(242, 236, 229, 0.5);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: all 0.3s;
+  }
+
+  .social-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .footer-col-title {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .footer-links a {
+    color: rgba(242, 236, 229, 0.4);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 28px;
+    border-top: 1px solid rgba(176, 141, 87, 0.08);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    color: rgba(242, 236, 229, 0.25);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-country {
+    font-size: 0.65rem;
+    color: rgba(176, 141, 87, 0.4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ─────────────────────────────────────
+     SCROLL ANIMATIONS
+  ───────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* ─────────────────────────────────────
+     RESPONSIVE
+  ───────────────────────────────────── */
+  @media (max-width: 900px) {
+    .about-grid,
+    .society-inner { grid-template-columns: 1fr; }
+
+    .features-grid { grid-template-columns: 1fr 1fr; }
+
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+
+    .stats-band { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  @media (max-width: 680px) {
+    nav { padding: 20px 24px; }
+    nav.scrolled { padding: 14px 24px; }
+
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    .features-grid { grid-template-columns: 1fr; }
+
+    .footer-grid { grid-template-columns: 1fr; }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    .society-visual { grid-template-columns: 1fr; }
+    .society-card.featured { grid-column: span 1; }
+
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
 </style>
 </head>
-<body class="font-inter bg-white text-black overflow-x-hidden">
-<!-- Navbar -->
-<nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-black/5">
-<div class="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex items-center justify-between">
-<div class="text-2xl font-playfair font-bold tracking-tight">Pawmatch</div>
+
+<body>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="closeMobileMenu()" aria-label="Close menu">✕</button>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#experience" onclick="closeMobileMenu()">Experience</a>
+  <a href="#society" onclick="closeMobileMenu()">Society</a>
+  <a href="#join" onclick="closeMobileMenu()">Join</a>
+  <a href="#join" class="nav-cta" onclick="closeMobileMenu()">Request Access</a>
 </div>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#" class="nav-logo" aria-label="BLINK">
+    <img src="https://i.ibb.co/MyVVZPXT/Logo-removebg-preview.png" alt="BLINK logo" loading="eager" decoding="async" />
+    <span class="sr-only">BLINK</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#society">Society</a></li>
+    <li><a href="#join" class="nav-cta">Request Access</a></li>
+  </ul>
+  <button class="hamburger" onclick="openMobileMenu()" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
-<!-- Gradient Blobs -->
-<div class="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-<div class="gradient-blob absolute top-1/4 right-1/4 w-96 h-96"></div>
-<div class="gradient-blob-2 absolute bottom-1/3 left-1/4 w-[500px] h-[500px]"></div>
-</div>
-<!-- Hero Section -->
-<section class="relative min-h-screen pt-32 pb-20 px-6 lg:px-12">
-<div class="max-w-7xl mx-auto">
-<div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-<!-- Left: Text Content -->
-<div class="space-y-8 lg:space-y-10">
-<div class="space-y-6">
-<h1 class="font-playfair font-bold text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
-                            SWIPE.<br/>MATCH.<br/>WAG.
-</h1>
-<p class="text-lg md:text-xl text-black/70 max-w-lg leading-relaxed">
-                            A platform where pet owners find trusted, compatible sitters — and sitters find pets that truly fit their lifestyle.
-</p>
-</div>
 
-<!-- Launch Info Banner -->
-<div class="inline-flex items-center gap-2 px-4 py-2 bg-burgundy/5 border border-burgundy/20 rounded-full">
-<svg class="w-5 h-5 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-</svg>
-<span class="text-sm font-medium text-burgundy">Launching in Amsterdam</span>
-</div>
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
 
-<!-- Stats -->
-<div class="flex gap-12 pt-4">
-<div>
-<div class="font-playfair text-4xl font-bold text-burgundy">500+</div>
-<div class="text-sm text-black/60 mt-1">Verified Sitters</div>
-</div>
-<div>
-<div class="font-playfair text-4xl font-bold text-burgundy">5-Star</div>
-<div class="text-sm text-black/60 mt-1">Average Rating</div>
-</div>
-</div>
-</div>
+  <div class="hero-content">
+    <img
+      class="logo-mark"
+      src="https://i.ibb.co/MyVVZPXT/Logo-removebg-preview.png"
+      alt="BLINK logo"
+      loading="eager"
+      decoding="async"
+    />
 
-<!-- Right: Cooper Profile Image -->
-<div class="relative flex items-center justify-center lg:justify-end">
-<div class="relative">
-<img 
-src="https://i.ibb.co/jkVVTQYw/Whats-App-Image-2026-01-25-at-11-09-57.jpg" 
-alt="Cooper the Dalmatian" 
-class="w-80 md:w-96 lg:w-[420px] h-auto rounded-3xl image-shadow object-cover"
-/>
-</div>
-</div>
-</div>
-</div>
+    <p class="hero-eyebrow">Launching in Canada</p>
+    <h1 class="hero-title">BLINK</h1>
+    <p class="hero-tagline">Serious about Love?<br><span>So are We.</span></p>
+
+    <div class="hero-cta-group">
+      <a href="#join" class="btn-primary"><span>Request Early Access</span></a>
+      <a href="#about" class="btn-secondary">Discover BLINK</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
-<!-- Features Section -->
-<section class="relative py-20 px-6 lg:px-12 bg-white">
-<div class="max-w-6xl mx-auto">
-<div class="grid md:grid-cols-3 gap-12 md:gap-8">
-<!-- Feature 1: Swipe Matching -->
-<div class="text-center space-y-4">
-<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-burgundy/10">
-<svg class="w-8 h-8 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-</svg>
-</div>
-<h3 class="font-playfair font-bold text-2xl">Swipe & Match</h3>
-<p class="text-black/60 leading-relaxed">
-Our Tinder-style interface makes finding the perfect pet sitter intuitive and fun. Swipe through profiles, match based on compatibility, lifestyle, and preferences.
-</p>
-</div>
-
-<!-- Feature 2: Secure Platform -->
-<div class="text-center space-y-4">
-<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-burgundy/10">
-<svg class="w-8 h-8 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-</svg>
-</div>
-<h3 class="font-playfair font-bold text-2xl">Verified & Secure</h3>
-<p class="text-black/60 leading-relaxed">
-Every sitter is thoroughly vetted with background checks and verified reviews. Your pet's safety is our priority with secure payments and encrypted messaging.
-</p>
-</div>
-
-<!-- Feature 3: Instant Booking -->
-<div class="text-center space-y-4">
-<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-burgundy/10">
-<svg class="w-8 h-8 text-burgundy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-</svg>
-</div>
-<h3 class="font-playfair font-bold text-2xl">Instant Connection</h3>
-<p class="text-black/60 leading-relaxed">
-Book instantly with real-time availability. Chat directly with sitters through our in-app messaging to discuss details and build trust before your booking.
-</p>
-</div>
-</div>
-</div>
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <span class="section-label reveal">What is BLINK</span>
+      <h2 class="section-title reveal reveal-delay-1">A curated connection<br><em>experience.</em></h2>
+      <p class="reveal reveal-delay-2">
+        BLINK is designed for those seeking <strong>meaningful relationships</strong>, genuine chemistry, and shared intention — without all the noise. Not another swipe app. Not another algorithm pretending to know you.
+      </p>
+      <p class="reveal reveal-delay-3">
+        We believe the best connections come from <strong>intention, depth, and shared values</strong>. Whether you're looking for love, friendship, or community, BLINK connects you with people aligned to how you live, think, and feel.
+      </p>
+      <p class="reveal reveal-delay-4">
+        This is not for everyone — and that's entirely the point.
+      </p>
+    </div>
+    <div class="about-visual reveal reveal-delay-2">
+      <div class="about-card">
+        <p class="about-card-quote">"People here are serious. Intentional. This is not for everyone — and that's entirely the point."</p>
+        <span class="about-card-attr">— The BLINK Standard</span>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- Waitlist Section -->
-<section class="relative py-20 px-6 lg:px-12 bg-gradient-to-b from-white to-burgundy/5">
-<div class="max-w-7xl mx-auto">
-<div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-<!-- Left: It's a Match Image -->
-<div class="relative flex items-center justify-center lg:justify-start">
-<div class="relative">
-<img 
-src="https://i.ibb.co/5x9Xz2CM/Whats-App-Image-2026-01-25-at-11-09-58.jpg" 
-alt="It's a Match" 
-class="w-80 md:w-96 lg:w-[420px] h-auto rounded-3xl image-shadow object-cover"
-/>
-</div>
-</div>
-
-<!-- Right: Waitlist Forms -->
-<div class="space-y-8">
-<div class="space-y-4">
-<h2 class="font-playfair font-bold text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight">
-                            Join the Waitlist
-</h2>
-<p class="text-lg text-black/70 leading-relaxed">
-                            Whether you're a pet owner or a sitter.
-</p>
-</div>
-                    
-<!-- Horizontal Signup Forms -->
-<div class="grid md:grid-cols-2 gap-4 max-w-2xl">
-<!-- Pet Owner Signup -->
-<form action="YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE" method="POST" class="space-y-3">
-<input type="hidden" name="user_type" value="pet_owner">
-<div class="space-y-2">
-<input 
-type="email" 
-name="email" 
-placeholder="Enter your email" 
-required
-class="w-full px-5 py-3.5 border-2 border-black/20 rounded-full text-base focus:outline-none focus:border-burgundy transition-colors duration-300"
-/>
-<button 
-type="submit"
-class="w-full px-6 py-3.5 bg-burgundy text-white rounded-full font-medium hover:bg-burgundy-light transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
->
-                                    Join as Pet Owner
-</button>
-</div>
-</form>
-
-<!-- Pet Sitter Signup -->
-<form action="YOUR_GOOGLE_SHEETS_WEB_APP_URL_HERE" method="POST" class="space-y-3">
-<input type="hidden" name="user_type" value="pet_sitter">
-<div class="space-y-2">
-<input 
-type="email" 
-name="email" 
-placeholder="Enter your email" 
-required
-class="w-full px-5 py-3.5 border-2 border-black/20 rounded-full text-base focus:outline-none focus:border-burgundy transition-colors duration-300"
-/>
-<button 
-type="submit"
-class="w-full px-6 py-3.5 bg-black text-white rounded-full font-medium hover:bg-black/80 transition-all duration-300 shadow-lg hover:shadow-xl text-sm"
->
-                                    Join as Pet Sitter
-</button>
-</div>
-</form>
+<!-- ── STATS BAND ── -->
+<div class="stats-band">
+  <div class="reveal">
+    <span class="stat-num">100%</span>
+    <span class="stat-label">Human Verified</span>
+  </div>
+  <div class="reveal reveal-delay-2">
+    <span class="stat-num">0</span>
+    <span class="stat-label">Bots. Ever.</span>
+  </div>
+  <div class="reveal reveal-delay-3">
+    <span class="stat-num">∞</span>
+    <span class="stat-label">Intentional Connections</span>
+  </div>
 </div>
 
-<!-- Incentive Message -->
-<div class="flex items-start gap-2 px-4 py-3 bg-burgundy/5 rounded-2xl border border-burgundy/10 max-w-2xl">
-<svg class="w-5 h-5 text-burgundy flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/>
-</svg>
-<p class="text-sm text-burgundy font-medium">
-                            First 50 sign-ups receive an exclusive launch gift.
-</p>
-</div>
-</div>
-</div>
-</div>
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="experience-header">
+    <span class="section-label reveal">The BLINK Experience</span>
+    <h2 class="section-title reveal reveal-delay-1">Elevated from the<br><em>very first moment.</em></h2>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-num">01</div>
+      <span class="feature-icon">✦</span>
+      <h3 class="feature-title">Curated Daily Matches</h3>
+      <p class="feature-desc">Forget endless swiping. BLINK delivers a small, intentional selection of curated matches each day — people genuinely aligned to who you are.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-1">
+      <div class="feature-num">02</div>
+      <span class="feature-icon">◈</span>
+      <h3 class="feature-title">Deep Profile Depth</h3>
+      <p class="feature-desc">Values. Lifestyle. Intentions. Non-negotiables. Your profile reflects who you truly are — not just how you look on a Sunday morning.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-2">
+      <div class="feature-num">03</div>
+      <span class="feature-icon">◇</span>
+      <h3 class="feature-title">Human Verification</h3>
+      <p class="feature-desc">Every BLINK member is real. Face verification during onboarding ensures trust and safety from the very first interaction.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-3">
+      <div class="feature-num">04</div>
+      <span class="feature-icon">⬡</span>
+      <h3 class="feature-title">Society Groups</h3>
+      <p class="feature-desc">Find your people. Interest-based societies create a sense of belonging with those who live, think, and feel like you do.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-4">
+      <div class="feature-num">05</div>
+      <span class="feature-icon">◉</span>
+      <h3 class="feature-title">Fully Inclusive</h3>
+      <p class="feature-desc">BLINK is for everyone. Flexible gender, identity, and preference options ensure no one feels excluded or unseen.</p>
+    </div>
+    <div class="feature-card reveal reveal-delay-5">
+      <div class="feature-num">06</div>
+      <span class="feature-icon">⌀</span>
+      <h3 class="feature-title">Your Safety, Always</h3>
+      <p class="feature-desc">Discreet blocking, easy reporting, and total control over your experience. You are always safe, respected, and in charge.</p>
+    </div>
+  </div>
 </section>
 
-<!-- Footer -->
-<footer class="relative py-12 px-6 lg:px-12 bg-black/[0.02]">
-<div class="max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="font-playfair text-xl font-bold">Pawmatch</div>
-            
-<!-- Social Media Icons -->
-<div class="flex items-center gap-4">
-<!-- Instagram -->
-<a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-burgundy hover:text-white transition-all duration-300">
-<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-</svg>
-</a>
-                
-<!-- Twitter/X -->
-<a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-burgundy hover:text-white transition-all duration-300">
-<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-</svg>
-</a>
-                
-<!-- Facebook -->
-<a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 hover:bg-burgundy hover:text-white transition-all duration-300">
-<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-</svg>
-</a>
+<!-- ── SOCIETY ── -->
+<section id="society">
+  <div class="society-inner">
+    <div>
+      <span class="section-label reveal">Society Groups</span>
+      <h2 class="section-title reveal reveal-delay-1">Find your<br><em>people.</em></h2>
+      <p class="reveal reveal-delay-2" style="color: var(--text-light); font-size: 0.85rem; line-height: 1.9; margin-bottom: 20px; max-width: 460px;">
+        Beyond matches, BLINK creates a sense of community through Society Groups — curated spaces for people who share the same lifestyle, values, and vision.
+      </p>
+      <p class="reveal reveal-delay-3" style="color: rgba(242,236,229,0.4); font-size: 0.78rem; line-height: 1.9; max-width: 460px;">
+        View who's in each society. Connect directly. No cluttered threads, no noise — just elevated, optional community when you want it.
+      </p>
+    </div>
+    <div class="society-visual reveal reveal-delay-2">
+      <div class="society-card featured">
+        <span class="society-card-icon">✦</span>
+        <div class="society-card-title">The Founders Circle</div>
+        <div class="society-card-desc">BLINK's inaugural Society — for those who believed before the doors opened.</div>
+      </div>
+      <div class="society-card">
+        <span class="society-card-icon">◈</span>
+        <div class="society-card-title">Wellness & Mindfulness</div>
+        <div class="society-card-desc">Aligned living. Balanced minds.</div>
+      </div>
+      <div class="society-card">
+        <span class="society-card-icon">◇</span>
+        <div class="society-card-title">Arts & Culture</div>
+        <div class="society-card-desc">Creatives who see beauty differently.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── JOIN ── -->
+<section id="join">
+  <div class="join-inner">
+    <span class="section-label reveal">Early Access</span>
+    <h2 class="section-title reveal reveal-delay-1">Join the<br><em>Founders List.</em></h2>
+    <p class="join-sub reveal reveal-delay-2">
+      BLINK is opening quietly. Join the founding list to receive the first invitation when BLINK opens and be part of the initial community.
+    </p>
+
+    <div class="reveal reveal-delay-2" id="formWrap">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">First Name</label>
+          <input type="text" id="fname" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label for="femail">Email Address</label>
+          <input type="email" id="femail" placeholder="you@example.com" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fcity">City</label>
+        <input type="text" id="fcity" placeholder="Where are you located?" />
+      </div>
+      <button class="form-submit" onclick="submitForm()">
+        <span>Join the Founders List</span>
+      </button>
+      <p class="form-note">No spam. No noise. Just your invitation when the doors open.</p>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      <span class="check">✦</span>
+      <p>You're on the list.</p>
+      <small>We'll be in touch when BLINK opens its doors.</small>
+    </div>
+  </div>
+</section>
+
+<!-- ── APP BAND ── -->
+<div class="app-band">
+  <h3 class="app-band-title reveal">Available soon on all devices.</h3>
+  <p class="app-band-sub reveal reveal-delay-1">The BLINK app is launching on iOS and Android.</p>
+  <div class="app-badges reveal reveal-delay-2">
+    <a href="#join" class="app-badge">
+      <span class="app-badge-icon">🍎</span>
+      <div class="app-badge-text">
+        <strong>App Store</strong>
+        <span>Coming Soon</span>
+      </div>
+    </a>
+    <a href="#join" class="app-badge">
+      <span class="app-badge-icon">▶</span>
+      <div class="app-badge-text">
+        <strong>Google Play</strong>
+        <span>Coming Soon</span>
+      </div>
+    </a>
+  </div>
 </div>
 
-<div class="text-sm text-black/60">
-                © 2026 Pawmatch. All rights reserved.
-</div>
-</div>
-</div>
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BLINK</div>
+      <p class="footer-brand-tagline">A curated matchmaking experience designed for those serious about love, community, and intentional connection.</p>
+      <div class="footer-socials">
+        <a class="social-link" href="https://www.instagram.com/blink.matchmaking/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="social-link" href="https://www.facebook.com/profile.php?id=61586879043204" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a class="social-link" href="mailto:info@blinkapp.ca" aria-label="Email">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Navigate</p>
+      <ul class="footer-links">
+        <li><a href="#about">About BLINK</a></li>
+        <li><a href="#experience">The Experience</a></li>
+        <li><a href="#society">Society Groups</a></li>
+        <li><a href="#join">Early Access</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="footer-col-title">Legal</p>
+      <ul class="footer-links">
+        <li><a href="https://www.blinkapp.ca/blank" target="_blank">Privacy Policy</a></li>
+        <li><a href="https://www.blinkapp.ca/blank-2" target="_blank">Terms & Conditions</a></li>
+        <li><a href="https://www.blinkapp.ca/blank-1" target="_blank">Accessibility</a></li>
+        <li><a href="mailto:info@blinkapp.ca">info@blinkapp.ca</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 BLINK. All rights reserved.</span>
+    <span class="footer-country">🍁 Canada</span>
+  </div>
 </footer>
+
+<script>
+  // ── Nav scroll behavior
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── Intersection Observer for reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Mobile menu
+  function openMobileMenu() {
+    document.getElementById('mobileMenu').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Form submission
+  const FOUNDERS_LIST_ENDPOINT = 'https://script.google.com/macros/s/AKfycbw7eMkynZfyQe6656cIOh-MHP12cFbA6QzZEHl5IY69rNGLsl9pQzBGAOtnv2jjVN9PtA/exec';
+
+  function getSignupSource() {
+    const params = new URLSearchParams(window.location.search);
+    return (
+      params.get('source') ||
+      params.get('utm_source') ||
+      params.get('ref') ||
+      document.referrer ||
+      'landing-page'
+    );
+  }
+
+  function setFormError(message) {
+    let el = document.getElementById('formError');
+    if (!el) {
+      el = document.createElement('p');
+      el.id = 'formError';
+      el.style.marginTop = '14px';
+      el.style.fontSize = '0.72rem';
+      el.style.lineHeight = '1.6';
+      el.style.color = 'rgba(217, 184, 167, 0.95)';
+      document.getElementById('formWrap').appendChild(el);
+    }
+    el.textContent = message || '';
+  }
+
+  async function submitForm() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim().toLowerCase();
+    const city = document.getElementById('fcity').value.trim();
+
+    setFormError('');
+
+    if (!name || !email) {
+      const inputs = document.querySelectorAll('#formWrap input');
+      inputs.forEach(inp => {
+        if (!inp.value.trim()) {
+          inp.style.borderColor = 'rgba(217, 184, 167, 0.5)';
+          setTimeout(() => inp.style.borderColor = '', 2000);
+        }
+      });
+      setFormError('Please enter your name and email.');
+      return;
+    }
+
+    const submitBtn = document.querySelector('#formWrap .form-submit');
+    const submitText = submitBtn?.querySelector('span');
+    const prevText = submitText ? submitText.textContent : '';
+
+    try {
+      if (submitBtn) submitBtn.disabled = true;
+      if (submitText) submitText.textContent = 'Submitting...';
+
+      const payload = {
+        timestamp: new Date().toISOString(),
+        name,
+        email,
+        city,
+        source: getSignupSource(),
+        userAgent: navigator.userAgent
+      };
+
+      // Apps Script web apps sometimes respond with cross-origin redirects that make `fetch`
+      // look like a network error in browsers ("Load failed"), even though the row is appended.
+      // Use sendBeacon (best-effort) and fall back to no-cors fetch.
+      const bodyJson = JSON.stringify(payload);
+      let sent = false;
+
+      if (navigator.sendBeacon) {
+        try {
+          const blob = new Blob([bodyJson], { type: 'text/plain;charset=UTF-8' });
+          sent = navigator.sendBeacon(FOUNDERS_LIST_ENDPOINT, blob);
+        } catch (_) {
+          sent = false;
+        }
+      }
+
+      if (!sent) {
+        // no-cors prevents the browser from blocking on redirects/CORS.
+        // We cannot read a JSON response in this mode, so treat a completed request as success.
+        await fetch(FOUNDERS_LIST_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: bodyJson
+        });
+      }
+
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('formSuccess').classList.add('show');
+    } catch (err) {
+      setFormError(err?.message || 'Something went wrong. Please try again.');
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      if (submitText) submitText.textContent = prevText || 'Join the Founders List';
+    }
+  }
+</script>
+
 </body>
 </html>
